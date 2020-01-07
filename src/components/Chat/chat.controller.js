@@ -6,11 +6,12 @@ import ChatProvider from 'contexts/ChatProvider';
 
 const Controller = props => {
 
-  const [ showLogin, setShowLogin ] = React.useState(false);
+  const [ showLogin, setShowLogin ] = React.useState(true);
+  const token = localStorage.getItem('@speech/token');
 
   React.useEffect(() => {
     // Verify if the token exists
-    if (!localStorage.getItem('@speech/token')) {
+    if (!token) {
       setShowLogin(true);
     } else {
       // If exists, verify if is valid
@@ -19,6 +20,8 @@ const Controller = props => {
           if (!r) {
             localStorage.removeItem('@speech/token');
             setShowLogin(true);
+          } else {
+            setShowLogin(false);
           }
         })
     }
@@ -26,7 +29,7 @@ const Controller = props => {
 
   if (showLogin) return <Login show={setShowLogin} />
 
-  return (
+  if (!showLogin) return (
     <ChatProvider>
       <View />
     </ChatProvider>

@@ -5,12 +5,6 @@ import style from 'app.module.scss';
 
 function App() {
 
-  const io = socket('http://localhost:5000');
-
-  io.on('message', msg => {
-    console.log('recebendo menssagem do socket: ', msg);
-  })
-
   return (
     <div className={style.container}>
       <Chat />

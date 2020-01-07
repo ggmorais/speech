@@ -4,7 +4,7 @@ const View = props => {
 
   return (
     <div>
-      logoff
+      <button onClick={props.handleButton}>Logout</button>
     </div>
   );
 
