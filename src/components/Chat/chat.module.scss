@@ -1,0 +1,18 @@
+@import 'components/scss_modules/colors.module.scss';
+
+.container {
+  width: 98%;
+  height: 100%;
+  background-color: #adc7e9;
+  margin: 0 auto;
+  display: flex;
+}
+
+.blockLeft {
+  height: 100%;
+  width: 30%;
+  min-width: 260px;
+  background-color: white;
+  box-shadow: 0px 1px 3px #8e8e8e;
+}
+
