@@ -1,0 +1,34 @@
+@import 'components/scss_modules/styles.module.scss';
+
+.warning {
+  color: red;
+  font-size: 20px;
+  background-color: $bg-red;
+  padding: 5px; 
+  font-weight: bold;
+  text-align: center;
+}
+
+.buttonCancel {
+  width: 100%;
+  border: none;
+  background-color: $bg-red;
+  color: white;
+  height: 42px;
+  box-shadow: 0px 0px 2px 0px #808080;
+  font-size: 22px;
+  margin-top: 27px;
+  border-radius: 2px;
+}
+
+.buttonDone {
+  width: 100%;
+  border: none;
+  background-color: $bg-blue;
+  color: white;
+  height: 42px;
+  box-shadow: 0px 0px 2px 0px #808080;
+  font-size: 22px;
+  margin-top: 27px;
+  border-radius: 2px;
+}

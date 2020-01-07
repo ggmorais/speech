@@ -4,4 +4,7 @@
   background-color: $bg-white;
   width: 100vw;
   height: 100vh;
+  position: absolute;
+  overflow: hidden;
+  font-family: $font-default;
 }
