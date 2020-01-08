@@ -4,11 +4,13 @@ import RoomList from './components/RoomList';
 import RoomWindow from './components/RoomWindow';
 import Logoff from './components/Logoff';
 import NewRoom from './components/NewRoom';
+import EnterRoom from './components/EnterRoom';
 
 const View = props => (
   <div className={style.container}>
     <div className={style.blockLeft}>
       <Logoff />
+      <EnterRoom />
       <NewRoom />
       <RoomList />
     </div>
