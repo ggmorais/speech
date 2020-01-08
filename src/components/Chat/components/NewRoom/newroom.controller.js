@@ -5,25 +5,32 @@ import jwt from 'jwt-decode';
 
 const Controller = props => {
 
+  const [ layer, setLayer ] = React.useState(false);
   const [ roomName, setRoomName ] = React.useState('');
 
   const handleChanges = e => {
     setRoomName(e.target.value);
   }
 
+  const handleLayer = e => {
+    setLayer(layer ? false : true);
+  }
+
   const handleSubmit = e => {
     e.preventDefault();
 
-    fetch(config.api + '/rooms', {
-      method: 'POST',
-      headers: {
-        ContentType: 'application/json',
-        authorization: localStorage.getItem('@speech/token')
-      },
-      body: JSON.stringify({
-        name: roomName
-      })
-    })
+    alert('criando sala')
+
+    // fetch(config.api + '/rooms', {
+    //   method: 'POST',
+    //   headers: {
+    //     ContentType: 'application/json',
+    //     authorization: localStorage.getItem('@speech/token')
+    //   },
+    //   body: JSON.stringify({
+    //     name: roomName
+    //   })
+    // })
   }
 
   return (
@@ -31,6 +38,8 @@ const Controller = props => {
       roomName={roomName}
       handleChanges={handleChanges}
       handleSubmit={handleSubmit}
+      handleLayer={handleLayer}
+      layer={layer}
     />
   );
 

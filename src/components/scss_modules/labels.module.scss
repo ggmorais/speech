@@ -19,10 +19,11 @@
   font-size: 22px;
   margin-top: 27px;
   border-radius: 2px;
+  cursor: pointer;
 }
 
 .buttonDone {
-  width: 100%;
+  width: 90%;
   border: none;
   background-color: $bg-blue;
   color: white;
@@ -31,4 +32,9 @@
   font-size: 22px;
   margin-top: 27px;
   border-radius: 2px;
+  cursor: pointer;
+}
+
+.buttonDone:hover {
+  background-color: #74a3e0;
 }

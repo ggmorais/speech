@@ -1,10 +1,11 @@
 import React from 'react';
+import { Button } from 'components/Models';
 
 const View = props => {
 
   return (
     <div>
-      <button onClick={props.handleButton}>Logout</button>
+      <Button cancel title="Log out" onClick={props.handleButton} />
     </div>
   );
 
