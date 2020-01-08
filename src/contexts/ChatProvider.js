@@ -7,12 +7,11 @@ export const ChatContext = React.createContext();
 const ChatProvider = props => {
 
   const token = localStorage.getItem('@speech/token');
-
-  const [ user, setUser ] = React.useState({});
+  const user = jwtDecode(token)
   const [ rooms, setRooms ] = React.useState([]);
 
   const fetchRooms = async () => {
-    const data = await fetch(config.api + '/rooms', {
+    const data = await fetch(config.api + '/rooms/' + user._id, {
       headers: {
         authorization: token
       }
@@ -24,15 +23,12 @@ const ChatProvider = props => {
   }
 
   React.useEffect(() => {
-    // Authenticated user information
-    setUser(jwtDecode(token))
-
     // Obtain the rooms data from the API
     fetchRooms();
   }, []);
 
   return (
-    <ChatContext.Provider value={ { user: user, rooms: rooms } }>
+    <ChatContext.Provider value={ { user: user, rooms: rooms, token: token } }>
       { props.children }
     </ChatContext.Provider>
   );

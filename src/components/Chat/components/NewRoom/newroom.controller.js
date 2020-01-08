@@ -2,11 +2,13 @@ import React from 'react';
 import View from './newroom.view';
 import config from 'config';
 import jwt from 'jwt-decode';
+import { ChatContext } from 'contexts/ChatProvider';
 
 const Controller = props => {
 
   const [ layer, setLayer ] = React.useState(false);
   const [ roomName, setRoomName ] = React.useState('');
+  const { user } = React.useContext(ChatContext);
 
   const handleChanges = e => {
     setRoomName(e.target.value);
@@ -16,21 +18,23 @@ const Controller = props => {
     setLayer(layer ? false : true);
   }
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
 
-    alert('criando sala')
+    const create = await fetch(config.api + '/rooms', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: localStorage.getItem('@speech/token')
+      },
+      body: JSON.stringify({
+        name: roomName,
+        userId: user._id
+      })
+    })
 
-    // fetch(config.api + '/rooms', {
-    //   method: 'POST',
-    //   headers: {
-    //     ContentType: 'application/json',
-    //     authorization: localStorage.getItem('@speech/token')
-    //   },
-    //   body: JSON.stringify({
-    //     name: roomName
-    //   })
-    // })
+    const response = await create.json();
+    console.log(response);
   }
 
   return (

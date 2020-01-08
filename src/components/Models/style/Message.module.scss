@@ -1,22 +1,3 @@
-.container {
-  width: 68%;
-  min-width: 400px;
-  height: 100%;
-  background-color: white;
-  box-shadow: 0px 1px 3px #8e8e8e;
-  margin-left: 2%;
-  overflow-x: auto;
-  position: relative;
-}
-
-.window {
-  height: 100%;
-}
-
-.newMessage {
-  display: flex;
-}
-
 .messageList {
   list-style-type: none;
 }

@@ -6,3 +6,7 @@ body {
   /* overflow: hidden; */
   /* overflow-x: hidden; */
 }
+
+button:focus, input:focus {
+  outline: none;
+}

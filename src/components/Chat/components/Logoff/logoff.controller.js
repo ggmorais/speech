@@ -1,7 +1,10 @@
 import React from 'react';
 import View from './logoff.view';
+import { ChatContext } from 'contexts/ChatProvider';
 
 const Controller = props => {
+
+  const { user } = React.useContext(ChatContext);
 
   const handleButton = e => {
     e.preventDefault();
@@ -10,7 +13,10 @@ const Controller = props => {
   }
 
   return (
-    <View handleButton={handleButton} />
+    <View 
+      handleButton={handleButton}
+      username={user.username}
+    />
   );
   
 }
