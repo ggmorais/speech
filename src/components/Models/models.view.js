@@ -1,11 +1,13 @@
 import React from 'react'
-import style from './models.module.scss';
+import input from './style/Input.module.scss';
+import button from './style/Button.module.scss';
+import layer from './style/Layer.module.scss';
 
 const Input = props => (
-  <label className={style.label}>
-    <p className={style.inputName}>{props.title}</p>
+  <label className={input.label}>
+    <p className={input.inputName}>{props.title}</p>
     <input
-      className={style.input}
+      className={input.input}
       type={props.type} 
       name={props.name} 
       onChange={props.onChange}
@@ -14,5 +16,30 @@ const Input = props => (
   </label>
 );
 
-export { Input };
+const Button = props => (
+  <p className={button.container}>
+    <button 
+      onClick={props.onClick} 
+      className={ props.cancel ? button.cancel : button.done }
+      style={{ 
+        width: props.width && props.width,
+        borderRadius: props.rounded && props.rounded
+      }}
+    >
+      { props.title }
+    </button>
+  </p>
+);
+
+const Layer = props => (
+  <div className={layer.cover} style={{ display: !props.show && 'none' }}>
+    <div className={layer.content}>
+      <div className={layer.container} style={{ padding: props.pd && props.pd }}>
+        { props.children }
+      </div>
+    </div>
+  </div>
+);
+
+export { Input, Button, Layer };
 

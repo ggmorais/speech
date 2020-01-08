@@ -1,0 +1,38 @@
+@import 'components/scss_modules/styles.module.scss';
+
+.container {
+  width: 100%;
+  text-align: center;
+}
+
+.done {
+  width: 100%;
+  border: none;
+  background-color: $bg-blue;
+  color: white;
+  height: 42px;
+  box-shadow: 0px 0px 2px 0px #808080;
+  font-size: 22px;
+  // margin-top: 27px;
+  cursor: pointer;
+}
+
+.done:hover {
+  background-color: $bg-darkBlue;
+}
+
+.cancel {
+  width: 100%;
+  border: none;
+  background-color: $bg-red;
+  color: white;
+  height: 42px;
+  box-shadow: 0px 0px 2px 0px #808080;
+  font-size: 22px;
+  // margin-top: 27px;
+  cursor: pointer;
+}
+
+.cancel:hover {
+  background-color: $bg-darkRed;
+}
