@@ -5,7 +5,6 @@ import { ChatContext } from 'contexts/ChatProvider';
 
 const Controller = props => {
 
-  const [ room, setRoom ] = React.useState('');
   const { rooms, user } = React.useContext(ChatContext);
 
   const handleSelect = id => {
@@ -15,13 +14,12 @@ const Controller = props => {
   return (
     <div>
       { rooms.rooms && rooms.rooms.map(room => (
-          <View
-            { ...room } 
-            key={room._id} 
-            handleSelect={handleSelect}
-          />
-        )
-      )}
+        <View
+          { ...room } 
+          key={room._id} 
+          handleSelect={handleSelect}
+        />
+      ))}
     </div>
   );
 

@@ -65,14 +65,14 @@ const NewMessage = props => (
 )
 
 const Message = props => (
-  <ul className={message.messageList}>
-    <li className={message.messageInfos}>
-      <div className={message.message}>
-        <a className={message.messageOwner}>{ props.username }</a>
-        <p className={message.messageBody}>{ props.body }</p>
-      </div>
-    </li>
-  </ul>
+  <li className={message.messageInfos} style={{
+    justifyContent: props.right && 'flex-end'
+  }} >
+    <div className={message.message}>
+      <a className={message.messageOwner}>{ props.username }</a>
+      <p className={message.messageBody}>{ props.body }</p>
+    </div>
+  </li>
 );
 
 export { Input, Button, Layer, NewMessage, Message };

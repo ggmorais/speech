@@ -25,6 +25,8 @@ const Controller = props => {
   }
 
   const handleSubmit = async e => {
+    if (message.length === 0) return;
+    
     const send = await fetch(config.api + '/rooms/' + roomId , {
       method: 'PATCH',
       headers: {
@@ -51,13 +53,16 @@ const Controller = props => {
   return (
     <div className={style.container}>
       <div className={style.window}>
-        { messages && messages.map(msg => (
-          <Message
-            key={msg._id}
-            username={msg.user.username}
-            body={msg.body}
-          />
-        )) }
+        <ul>
+          { messages && messages.map(msg => (
+            <Message
+              key={msg._id}
+              username={ msg.user.username !== user.username && msg.user.username }
+              right={ msg.user.username === user.username && true }
+              body={msg.body}
+            />
+          )) }
+        </ul>
       </div>
       <NewMessage 
         onChange={handleNewMessage}
