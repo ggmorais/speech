@@ -5,8 +5,9 @@ import layer from './style/Layer.module.scss';
 import newMessage from './style/NewMessage.module.scss';
 import message from './style/Message.module.scss';
 import loading from './style/Loading.module.scss';
+import warning from './style/Warning.module.scss';
 
-const Input = props => (
+export const Input = props => (
   <div className={input.label}>
     <p className={input.inputName}>{props.title}</p>
     <input
@@ -23,7 +24,7 @@ const Input = props => (
   </div>
 );
 
-const Button = props => (
+export const Button = props => (
   <p className={button.container}>
     <button 
       onClick={props.onClick} 
@@ -38,7 +39,7 @@ const Button = props => (
   </p>
 );
 
-const Layer = props => (
+export const Layer = props => (
   <div className={layer.cover} style={{ display: !props.show && 'none' }}>
     <div className={layer.content}>
       <div className={layer.container} style={{ padding: props.pd && props.pd }}>
@@ -48,7 +49,7 @@ const Layer = props => (
   </div>
 );
 
-const NewMessage = props => (
+export const NewMessage = props => (
   <div className={newMessage.container}>
     <div className={newMessage.flex}>
       <input
@@ -65,18 +66,18 @@ const NewMessage = props => (
   </div>
 )
 
-const Message = props => (
+export const Message = props => (
   <li className={message.messageInfos} style={{
     justifyContent: props.right && 'flex-end'
   }} >
     <div className={message.message}>
       <a className={message.messageOwner}>{ props.username }</a>
-      <p className={message.messageBody}>{ props.body }</p>
+      <p className={message.messageBody}>{ props.body } <span className={message.postDate}>{props.postDate}</span></p>
     </div>
   </li>
 );
 
-const Loading = props => (
+export const Loading = props => (
   <div 
     className={loading.container}
     style={{ 
@@ -91,12 +92,11 @@ const Loading = props => (
   ></div>
 )
 
-export { 
-  Input, 
-  Button, 
-  Layer, 
-  NewMessage, 
-  Message, 
-  Loading 
-};
+export const Warning = props => (
+  <div className={warning.container} style={{
+    marginTop: props.top && props.top
+  }}>
+    { props.children }
+  </div>
+)
 
