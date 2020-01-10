@@ -4,7 +4,6 @@ import Chat from 'components/Chat';
 import style from 'app.module.scss';
 
 function App() {
-
   return (
     <div className={style.container}>
       <Chat />

@@ -7,14 +7,13 @@ import { Message, NewMessage } from 'components/Models';
 const Controller = props => {
 
   const [ message, setMessage ] = React.useState('');
-  const { rooms, token, user } = React.useContext(ChatContext);
-  const roomId = localStorage.getItem('@speech/roomId'); 
+  const { rooms, token, fetchRooms, user, updateRoom, selectedRoom } = React.useContext(ChatContext);
 
   var messages = [];
 
   if (rooms.rooms) {
     for (let i of rooms.rooms) {
-      if (i._id === roomId) {
+      if (i._id === selectedRoom) {
         messages = i.messages;
       }
     }
@@ -26,8 +25,11 @@ const Controller = props => {
 
   const handleSubmit = async e => {
     if (message.length === 0) return;
-    
-    const send = await fetch(config.api + '/rooms/' + roomId , {
+
+    updateRoom(selectedRoom, message);
+    setMessage('');
+
+    const send = await fetch(config.api + '/rooms/' + selectedRoom , {
       method: 'PATCH',
       headers: {
         authorization: token,
@@ -39,21 +41,13 @@ const Controller = props => {
       })
     });
 
-    const response = await send.json();
-
-    console.log(response);
+    //if (send.status === 200) fetchRooms();
   }
-
-  React.useState(() => {
-    
-  }, []);
-
-  console.log(messages)
 
   return (
     <div className={style.container}>
       <div className={style.window}>
-        <ul>
+        <ul id="messagesList">
           { messages && messages.map(msg => (
             <Message
               key={msg._id}
@@ -63,12 +57,13 @@ const Controller = props => {
             />
           )) }
         </ul>
-      </div>
+      
       <NewMessage 
         onChange={handleNewMessage}
         onClick={handleSubmit}
         value={message}
       />
+      </div>
     </div>
   );
 

@@ -1,28 +1,23 @@
-import React from 'react';
-import View from './list.view';
-import config from 'config';
-import { ChatContext } from 'contexts/ChatProvider';
+import React, { useContext } from "react";
+import View from "./list.view";
+import config from "config";
+import { ChatContext } from "contexts/ChatProvider";
+import { Loading } from "components/Models";
 
 const Controller = props => {
-
-  const { rooms, user } = React.useContext(ChatContext);
+  const { rooms, selectRoom, selectedRoom } = useContext(ChatContext);
 
   const handleSelect = id => {
-    localStorage.setItem('@speech/roomId', id);
-  }
+    selectRoom(id);
+  };
 
-  return (
-    <div>
-      { rooms.rooms && rooms.rooms.map(room => (
-        <View
-          { ...room } 
-          key={room._id} 
-          handleSelect={handleSelect}
-        />
-      ))}
-    </div>
+  return rooms.rooms ? (
+    rooms.rooms.map(room => (
+      <View {...room} key={room._id} handleSelect={handleSelect} />
+    ))
+  ) : (
+    <Loading />
   );
-
 };
 
 export default Controller;

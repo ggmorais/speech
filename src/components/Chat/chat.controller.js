@@ -26,6 +26,8 @@ const Controller = props => {
       })
     });
     
+    console.log(window.location.host)
+
     if (enter.status === 200) {
       localStorage.setItem('@speech/room', route.room);
       window.location.replace('http://localhost:3000');
@@ -55,10 +57,10 @@ const Controller = props => {
     invitedToRoom();
     return <div/>;
   }
-
+  
   if (showLogin) return <Login show={setShowLogin} />
 
-  if (!showLogin) return (
+  return (
     <ChatProvider>
       <View />
     </ChatProvider>
