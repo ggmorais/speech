@@ -1,5 +1,5 @@
-import React from "react";
-import style from "./list.module.scss";
+import React from 'react';
+import style from './list.module.scss';
 
 const View = props => (
   <div
@@ -7,10 +7,11 @@ const View = props => (
     onClick={props.handleSelect.bind(this, props._id)}
   >
     <p className={style.roomName}>{props.name}</p>
-    <span>
-      {props.messages.length > 0 &&
-        props.messages[props.messages.length - 1].body}
-    </span>
+    <p className={style.lastMessage}>
+      {props.lastMessage && props.sender + ': ' + props.lastMessage}
+      <span className={style.postDate}>{props.postDate}</span>
+    </p>
+    
   </div>
 );
 

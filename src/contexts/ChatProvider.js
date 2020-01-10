@@ -20,11 +20,20 @@ const ChatProvider = props => {
 
     const response = await data.json();
     
-    setRooms(response);
+    if (rooms.length === 0) {
+      setRooms(response.rooms);
+    } else {
+    
+      for (let room of response.rooms) {
+
+      }
+    }
+    
+
   }
 
   const updateRoom = (roomId, body) => {
-    let copy = [...rooms.rooms];
+    let copy = [...rooms];
     for (let i in copy) {
       if (copy[i]._id === roomId) {
         copy[i].messages.push({
@@ -35,9 +44,9 @@ const ChatProvider = props => {
         })
 
         setRooms(() => {
-          let old = {...rooms};
-          old.rooms = copy;
-          return old;
+          // let old = [...rooms];
+          // old.rooms = copy;
+          return copy;
         });
       }
     }

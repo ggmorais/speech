@@ -8,7 +8,7 @@ const Controller = props => {
 
   const [ layer, setLayer ] = React.useState(false);
   const [ roomName, setRoomName ] = React.useState('');
-  const { user } = React.useContext(ChatContext);
+  const { user, fetchRooms } = React.useContext(ChatContext);
 
   const handleChanges = e => {
     setRoomName(e.target.value);
@@ -33,8 +33,9 @@ const Controller = props => {
       })
     })
 
-    const response = await create.json();
-    console.log(response);
+    if (create.status === 200) {
+      fetchRooms();
+    }
   }
 
   return (
