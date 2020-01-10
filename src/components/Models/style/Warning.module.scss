@@ -1,0 +1,12 @@
+@import 'components/scss_modules/styles.module.scss';
+
+.container {
+  width: 86%;
+  font-weight: bold;
+  padding: 21px;
+  text-align: center;
+  margin: 0 auto;
+  font-size: 25px;
+  color: $bg-blue;
+  border-bottom: 2px solid $bg-blue;
+}
