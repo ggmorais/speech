@@ -4,6 +4,7 @@ import button from './style/Button.module.scss';
 import layer from './style/Layer.module.scss';
 import newMessage from './style/NewMessage.module.scss';
 import message from './style/Message.module.scss';
+import loading from './style/Loading.module.scss';
 
 const Input = props => (
   <div className={input.label}>
@@ -75,5 +76,27 @@ const Message = props => (
   </li>
 );
 
-export { Input, Button, Layer, NewMessage, Message };
+const Loading = props => (
+  <div 
+    className={loading.container}
+    style={{ 
+      height: props.size && props.size,
+      width: props.use && props.use,
+      display: props.hide && 'none',
+      marginTop: props.top && props.top,
+      marginLeft: props.left && props.left,
+      marginRight: props.right && props.right,
+      marginBottom: props.bottom && props.bottom
+    }}
+  ></div>
+)
+
+export { 
+  Input, 
+  Button, 
+  Layer, 
+  NewMessage, 
+  Message, 
+  Loading 
+};
 
