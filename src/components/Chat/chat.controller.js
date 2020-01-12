@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import View from './chat.view';
 import Login from './components/Login';
 import isTokenValid from 'components/isTokenValid';
@@ -6,6 +6,7 @@ import ChatProvider from 'contexts/ChatProvider';
 import hashRoute from 'components/hashRoute';
 import config from 'config';
 import JwtDecode from 'jwt-decode';
+import Register from './components/Register/register';
 
 const Controller = props => {
 
@@ -25,8 +26,6 @@ const Controller = props => {
         userId: JwtDecode(token)._id
       })
     });
-    
-    console.log(window.location.host)
 
     if (enter.status === 200) {
       localStorage.setItem('@speech/room', route.room);
@@ -35,7 +34,7 @@ const Controller = props => {
     
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     // Verify if the token exists
     if (!token) {
       setShowLogin(true);
@@ -56,6 +55,10 @@ const Controller = props => {
   if (route.room) {
     invitedToRoom();
     return <div/>;
+  }
+
+  if (route.register) {
+    return <Register />
   }
   
   if (showLogin) return <Login show={setShowLogin} />

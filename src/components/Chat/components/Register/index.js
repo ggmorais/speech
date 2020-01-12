@@ -1,6 +1,5 @@
 import React from 'react';
-import Controller from './register.controller';
 
-const Register = props => <Controller />;
+import Register from './register';
 
-export default Register;
+export default props => <Register {...props} />;

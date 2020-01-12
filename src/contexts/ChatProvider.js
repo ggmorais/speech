@@ -9,6 +9,7 @@ const ChatProvider = props => {
   const token = localStorage.getItem('@speech/token');
   const user = jwtDecode(token)
   const [ rooms, setRooms ] = useState([]);
+  const [ isLoading, setIsLoading ] = useState(true);
   const [ selectedRoom, setSelectedRoom ] = useState(localStorage.getItem('@speech/room'));
 
   const fetchRooms = async () => {
@@ -20,16 +21,10 @@ const ChatProvider = props => {
 
     const response = await data.json();
     
-    if (rooms.length === 0) {
+    if (response) {
       setRooms(response.rooms);
-    } else {
-    
-      for (let room of response.rooms) {
-
-      }
+      setIsLoading(false);
     }
-    
-
   }
 
   const updateRoom = (roomId, body) => {
@@ -44,8 +39,6 @@ const ChatProvider = props => {
         })
 
         setRooms(() => {
-          // let old = [...rooms];
-          // old.rooms = copy;
           return copy;
         });
       }
@@ -63,7 +56,7 @@ const ChatProvider = props => {
   }, []);
 
   return (
-    <ChatContext.Provider value={ { user, rooms, token, updateRoom, selectedRoom, selectRoom } }>
+    <ChatContext.Provider value={ { user, rooms, token, updateRoom, selectedRoom, selectRoom, isLoading, fetchRooms } }>
       { props.children }
     </ChatContext.Provider>
   );

@@ -12,7 +12,9 @@ const View = props => (
       <Logoff />
       <EnterRoom />
       <NewRoom />
-      <RoomList />
+      <div className={style.roomList}>
+        <RoomList />
+      </div>
     </div>
     <RoomWindow />
   </div>

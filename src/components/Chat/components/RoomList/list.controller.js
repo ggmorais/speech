@@ -4,15 +4,16 @@ import config from "config";
 import { ChatContext } from "contexts/ChatProvider";
 import { Loading } from "components/Models";
 import dateParser from "components/dateParser";
+import style from './list.module.scss';
 
 const Controller = props => {
-  const { rooms, selectRoom, selectedRoom, user } = useContext(ChatContext);
+  const { rooms, selectRoom, selectedRoom, user, isLoading } = useContext(ChatContext);
 
   const handleSelect = id => {
     selectRoom(id);
   };
 
-  return rooms.length ? (
+  return (rooms.length && !isLoading ) ? (
     rooms.map(room => {
 
       let sender, lastMessage, postDate;
@@ -31,8 +32,6 @@ const Controller = props => {
         }
       }
 
-      console.log(room)
-
       return (
         <View
           {...room}
@@ -46,7 +45,7 @@ const Controller = props => {
       );
     })
   ) : (
-    <Loading />
+    isLoading && <Loading />
   );
 };
 

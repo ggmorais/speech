@@ -10,6 +10,7 @@ const Controller = props => {
     e.preventDefault();
 
     localStorage.setItem('@speech/token', false);
+    window.location.reload();
   }
 
   return (

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
 import View from './newroom.view';
 import config from 'config';
 import jwt from 'jwt-decode';
@@ -6,9 +6,10 @@ import { ChatContext } from 'contexts/ChatProvider';
 
 const Controller = props => {
 
-  const [ layer, setLayer ] = React.useState(false);
-  const [ roomName, setRoomName ] = React.useState('');
-  const { user, fetchRooms } = React.useContext(ChatContext);
+  const [ layer, setLayer ] = useState(false);
+  const [ roomName, setRoomName ] = useState('');
+  const [ invite, setInvite ] = useState('');
+  const { user, fetchRooms } = useContext(ChatContext);
 
   const handleChanges = e => {
     setRoomName(e.target.value);
@@ -33,7 +34,16 @@ const Controller = props => {
       })
     })
 
+    const response = await create.json();
+
+    console.log(response)
+
+    if (response) {
+      setInvite('http://localhost:3000/#room=' + response._id);
+    }
+
     if (create.status === 200) {
+      setRoomName('');
       fetchRooms();
     }
   }
@@ -45,6 +55,7 @@ const Controller = props => {
       handleSubmit={handleSubmit}
       handleLayer={handleLayer}
       layer={layer}
+      invite={invite}
     />
   );
 

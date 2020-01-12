@@ -6,7 +6,8 @@ const View = props => (
   <div>
     <Button title="Create room" onClick={props.handleLayer} />
     <Layer show={props.layer}>
-      <p>{props.layer} </p>
+      <h2>{props.invite && 'Room created!'}</h2>
+      { props.invite && <p className={style.roomInvite}>Send your room invitation to other people: <a href={props.invite}>{ props.invite }</a></p> }
       <Input
         title="Room name"
         type="text"

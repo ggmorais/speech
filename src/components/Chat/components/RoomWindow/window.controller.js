@@ -2,13 +2,13 @@ import React from 'react';
 import { ChatContext } from 'contexts/ChatProvider';
 import config from 'config';
 import style from './window.module.scss';
-import { Message, NewMessage, Warning } from 'components/Models';
+import { Message, NewMessage, Warning, Loading } from 'components/Models';
 import dateParser from 'components/dateParser';
 
 const Controller = props => {
 
   const [ message, setMessage ] = React.useState('');
-  const { rooms, token, fetchRooms, user, updateRoom, selectedRoom } = React.useContext(ChatContext);
+  const { rooms, token, fetchRooms, user, updateRoom, selectedRoom, isLoading } = React.useContext(ChatContext);
 
   var messages = [];
 
@@ -59,7 +59,11 @@ const Controller = props => {
             />
           </ul>
         )) : (
-          <Warning top="25%">This room does not have messages yet, be the first sanding one now!</Warning>
+          !isLoading && (
+            <Warning top="25%">
+              This room does not have messages yet, be the first sanding one now!
+            </Warning>
+          )
         )}
       <NewMessage 
         onChange={handleNewMessage}
