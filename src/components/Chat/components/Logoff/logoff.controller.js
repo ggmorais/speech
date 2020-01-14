@@ -1,12 +1,14 @@
-import React from 'react';
-import View from './logoff.view';
 import { ChatContext } from 'contexts/ChatProvider';
+import React, { useContext, useState } from 'react';
+import { MdFace } from 'react-icons/md';
+import style from './logoff.module.scss';
 
 const Controller = props => {
 
-  const { user } = React.useContext(ChatContext);
+  const { user } = useContext(ChatContext);
+  const [ options, setOptions ] = useState(false);
 
-  const handleButton = e => {
+  const handleExit = e => {
     e.preventDefault();
 
     localStorage.setItem('@speech/token', false);
@@ -14,10 +16,19 @@ const Controller = props => {
   }
 
   return (
-    <View 
-      handleButton={handleButton}
-      username={user.username}
-    />
+    <div className={style.container}>
+      <MdFace size="40px" className={style.face} />
+      <p 
+        className={style.username} 
+        onClick={() => setOptions(options ? false : true)}>
+          {user.username}
+      </p>
+      {options && (
+        <div className={style.options}>
+          <p onClick={handleExit}>Logout</p>
+        </div>
+      )}
+    </div>
   );
   
 }

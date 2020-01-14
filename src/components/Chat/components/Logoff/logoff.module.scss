@@ -4,5 +4,33 @@
 
 .username {
   font-size: 22px;
-  margin-left: 20px;
+  padding-left: 18px;
+  border-left: 2px solid black;
+  cursor: pointer;
+}
+
+.face {
+  padding: 19px;
+}
+
+.options {
+  position: absolute;
+  height: 100px;
+  background-color: white;
+  box-shadow: 0px 2px 4px #adadad;
+  width: 158px;
+  margin-top: 60px;
+  margin-left: 68px;
+  border-top: 2px solid #eaeaea;
+}
+
+.options p {
+  color: #ff6464;
+  text-align: center;
+  margin-bottom: 5px;
+  font-weight: bold;
+  margin-top: 0px;
+  font-size: 19px;
+  border-bottom: 1px solid rgb(199, 199, 199);
+  cursor: pointer;
 }

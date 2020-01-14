@@ -1,16 +1,20 @@
-import React, { createContext, useState, useEffect } from 'react'
-import jwtDecode from 'jwt-decode';
 import config from 'config';
+import JwtDecode from 'jwt-decode';
+import React, { createContext, useEffect, useState } from 'react';
 
 export const ChatContext = createContext();
 
 const ChatProvider = props => {
 
   const token = localStorage.getItem('@speech/token');
-  const user = jwtDecode(token)
   const [ rooms, setRooms ] = useState([]);
   const [ isLoading, setIsLoading ] = useState(true);
   const [ selectedRoom, setSelectedRoom ] = useState(localStorage.getItem('@speech/room'));
+  const [ user, setUser ] = useState('');
+
+  try {
+    setUser(JwtDecode(token));
+  } catch(err) {}
 
   const fetchRooms = async () => {
     const data = await fetch(config.api + '/rooms/' + user._id, {

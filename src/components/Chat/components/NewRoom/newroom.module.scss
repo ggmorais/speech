@@ -12,3 +12,20 @@
 .roomInvite {
   word-wrap: break-word;
 }
+
+.createButton {
+  display: flex;
+  padding: 15px;
+  cursor: pointer;
+}
+
+.createButton:hover {
+  background-color: #f1f1f1;
+}
+
+.addTitle {
+  font-size: 20px;
+  margin-top: 7px;
+  margin-left: 5px;
+  font-weight: 600;
+}

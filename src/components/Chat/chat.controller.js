@@ -1,16 +1,16 @@
+import hashRoute from 'components/hashRoute';
+import isTokenValid from 'components/isTokenValid';
+import config from 'config';
+import ChatProvider from 'contexts/ChatProvider';
+import JwtDecode from 'jwt-decode';
 import React, { useEffect } from 'react';
 import View from './chat.view';
 import Login from './components/Login';
-import isTokenValid from 'components/isTokenValid';
-import ChatProvider from 'contexts/ChatProvider';
-import hashRoute from 'components/hashRoute';
-import config from 'config';
-import JwtDecode from 'jwt-decode';
 import Register from './components/Register/register';
 
 const Controller = props => {
 
-  const [ showLogin, setShowLogin ] = React.useState(true);
+  const [ showLogin, setShowLogin ] = React.useState(false);
   const token = localStorage.getItem('@speech/token');
 
   const route = hashRoute();
