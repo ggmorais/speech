@@ -1,8 +1,7 @@
-import React, { useState, useContext } from 'react';
-import View from './newroom.view';
 import config from 'config';
-import jwt from 'jwt-decode';
 import { ChatContext } from 'contexts/ChatProvider';
+import React, { useContext, useState } from 'react';
+import View from './newroom.view';
 
 const Controller = props => {
 
@@ -22,6 +21,8 @@ const Controller = props => {
   const handleSubmit = async e => {
     e.preventDefault();
 
+    if (roomName.length < 3) return;
+
     const create = await fetch(config.api + '/rooms', {
       method: 'POST',
       headers: {
@@ -35,8 +36,6 @@ const Controller = props => {
     })
 
     const response = await create.json();
-
-    console.log(response)
 
     if (response) {
       setInvite('http://localhost:3000/#room=' + response._id);
