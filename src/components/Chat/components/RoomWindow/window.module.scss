@@ -45,3 +45,26 @@
   margin-top: 4px;
   margin-bottom: 0;
 }
+
+.invite {
+  text-align: center;
+  background-color: #f1f1f1;
+  width: 80%;
+  margin: 0 auto;
+  border-radius: 2px;
+}
+
+.invite p {
+  padding: 8px;
+}
+
+.invite a {
+  margin-left: 5px;
+}
+
+.closeInvite {
+  color: red;
+  margin-left: 19px;
+  margin-bottom: -4px;
+  cursor: pointer;
+}

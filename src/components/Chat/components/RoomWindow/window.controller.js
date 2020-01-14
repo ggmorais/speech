@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { ChatContext } from 'contexts/ChatProvider';
 import config from 'config';
 import style from './window.module.scss';
 import { Message, NewMessage, Warning, Loading } from 'components/Models';
 import dateParser from 'components/dateParser';
+import { MdClose } from 'react-icons/md';
 
 const Controller = props => {
 
-  const [ message, setMessage ] = React.useState('');
-  const { rooms, token, fetchRooms, user, updateRoom, selectedRoom, isLoading } = React.useContext(ChatContext);
+  const [ message, setMessage ] = useState('');
+  const [ invite, setInvite ] = useState(true);
+  const { rooms, token, fetchRooms, user, updateRoom, selectedRoom, isLoading, sendNewMessage } = useContext(ChatContext);
 
   var messages = [];
 
@@ -30,7 +32,7 @@ const Controller = props => {
     updateRoom(selectedRoom, message);
     setMessage('');
 
-    const send = await fetch(config.api + '/rooms/' + selectedRoom , {
+    /*const send = await fetch(config.api + '/rooms/' + selectedRoom , {
       method: 'PATCH',
       headers: {
         authorization: token,
@@ -40,13 +42,35 @@ const Controller = props => {
         userId: user._id,
         body: message
       })
-    });
+    });*/
+
+    sendNewMessage(selectedRoom, message);
 
     //if (send.status === 200) fetchRooms();
   }
 
+  useEffect(() => {
+    setInvite(true);
+  }, [selectedRoom])
+
   return (
     <div className={style.container}>
+      <div className={style.invite}>
+        {invite && (
+          <p>
+            Invite other people to this room: 
+            <a href={window.location.href + '#room=' + selectedRoom}>
+              {window.location.href + '#room=' + selectedRoom}
+            </a>
+            <MdClose 
+              color="red" 
+              size="20px" 
+              className={style.closeInvite}
+              onClick={() => setInvite(invite ? false : true)}
+            />
+          </p>
+        )}
+      </div>
       <div className={style.window}>
         { messages.length ? messages.map(msg => (
           <ul id="messagesList">

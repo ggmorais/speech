@@ -1,6 +1,9 @@
 import config from 'config';
 import JwtDecode from 'jwt-decode';
 import React, { createContext, useEffect, useState } from 'react';
+import socket from 'socket.io-client';
+
+const io = socket('http://localhost:5000');
 
 export const ChatContext = createContext();
 
@@ -49,6 +52,13 @@ const ChatProvider = props => {
     }
   }
 
+  const sendNewMessage = (roomId, body) => {
+    io.emit('newMessage', {
+      roomId: roomId,
+      body: body
+    })
+  }
+
   const selectRoom = roomId => {
     localStorage.setItem('@speech/room', roomId);
     setSelectedRoom(roomId);
@@ -56,11 +66,20 @@ const ChatProvider = props => {
 
   useEffect(() => {
     // Obtain the rooms data from the API
-    fetchRooms();
+    //fetchRooms();
+
+    io.emit('userInfos', {
+      userId: user._id,
+      room: selectedRoom
+    });
+    io.on('rooms', docs => {
+      setRooms(docs);
+      setIsLoading(false);
+    });
   }, []);
 
   return (
-    <ChatContext.Provider value={ { user, rooms, token, updateRoom, selectedRoom, selectRoom, isLoading, fetchRooms } }>
+    <ChatContext.Provider value={ { user, rooms, token, updateRoom, selectedRoom, selectRoom, isLoading, fetchRooms, sendNewMessage } }>
       { props.children }
     </ChatContext.Provider>
   );

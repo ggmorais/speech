@@ -5,13 +5,15 @@ const View = props => (
   <div
     className={style.container}
     onClick={props.handleSelect.bind(this, props._id)}
+    style={{
+      backgroundColor: props.isSelected && '#adc6e840'
+    }}
   >
     <p className={style.roomName}>{props.name}</p>
     <p className={style.lastMessage}>
       {props.lastMessage && props.sender + ': ' + props.lastMessage}
       <span className={style.postDate}>{props.postDate}</span>
     </p>
-    
   </div>
 );
 

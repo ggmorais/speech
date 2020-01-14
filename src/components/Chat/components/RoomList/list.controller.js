@@ -16,7 +16,11 @@ const Controller = props => {
   return (rooms.length && !isLoading ) ? (
     rooms.map(room => {
 
-      let sender, lastMessage, postDate;
+      let sender, lastMessage, postDate, isSelected;
+
+      if (room._id === selectedRoom) {
+        isSelected = true;
+      }
 
       if (room.messages.length > 0) {
         sender = room.messages[room.messages.length - 1].user.username;
@@ -37,6 +41,7 @@ const Controller = props => {
           {...room}
           key={room._id}
           handleSelect={handleSelect}
+          isSelected={isSelected}
           username={user.username}
           sender={sender}
           lastMessage={lastMessage}
