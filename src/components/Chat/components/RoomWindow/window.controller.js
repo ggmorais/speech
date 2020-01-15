@@ -10,17 +10,25 @@ const Controller = props => {
 
   const [ message, setMessage ] = useState('');
   const [ invite, setInvite ] = useState(true);
-  const { rooms, token, fetchRooms, user, updateRoom, selectedRoom, isLoading, sendNewMessage } = useContext(ChatContext);
+  const { rooms, token, fetchRooms, user, updateRoom, selectedRoom, isLoading, sendNewMessage, roomData } = useContext(ChatContext);
 
   var messages = [];
 
-  if (rooms.length) {
-    for (let i of rooms) {
+  if (roomData.length) {
+    for (let i of roomData) {
       if (i._id === selectedRoom) {
         messages = i.messages;
       }
     }
   }
+
+  // if (rooms.length) {
+  //   for (let i of rooms) {
+  //     if (i._id === selectedRoom) {
+  //       messages = i.messages;
+  //     }
+  //   }
+  // }
 
   const handleNewMessage = e => {
     setMessage(e.target.value);

@@ -11,9 +11,13 @@ const ChatProvider = props => {
 
   const token = localStorage.getItem('@speech/token');
   const [ rooms, setRooms ] = useState([]);
+  const [ roomList, setRoomList ] = useState(false);
+  const [ roomData, setRoomData ] = useState([]);
   const [ isLoading, setIsLoading ] = useState(true);
   const [ selectedRoom, setSelectedRoom ] = useState(localStorage.getItem('@speech/room'));
   const [ user, setUser ] = useState('');
+
+  const [ count, setCount ] = useState(0);
 
   try {
     setUser(JwtDecode(token));
@@ -52,6 +56,13 @@ const ChatProvider = props => {
     }
   }
 
+  const fetchNewData = data => {
+    let oldData = [ ...roomData ];
+    oldData.push(data[0]);
+    setRoomData(oldData);
+    console.log(roomData);
+  }
+
   const sendNewMessage = (roomId, body) => {
     io.emit('newMessage', {
       roomId: roomId,
@@ -68,18 +79,48 @@ const ChatProvider = props => {
     // Obtain the rooms data from the API
     //fetchRooms();
 
-    io.emit('userInfos', {
-      userId: user._id,
-      room: selectedRoom
+    io.emit('userId', user._id);
+
+    io.on('roomList', docs => {
+      console.log('receiving new roomList')
+      setRoomList(docs);
     });
-    io.on('rooms', docs => {
-      setRooms(docs);
-      setIsLoading(false);
-    });
+
+  useEffect(() => {
+    io.on('roomData', docs => {
+      if (roomData.length != 0) {
+        console.log('not empty')
+      } else {
+        setRoomData(docs);
+      }
+    })
+  });
+
+    io.on('test', x => console.log(x))
+
   }, []);
 
+  console.log(count)
+
+  useEffect(() => {
+    console.log('selecting other room')
+    io.emit('selectedRoom', selectedRoom);
+  }, [selectedRoom])
+
   return (
-    <ChatContext.Provider value={ { user, rooms, token, updateRoom, selectedRoom, selectRoom, isLoading, fetchRooms, sendNewMessage } }>
+    <ChatContext.Provider value={{
+      roomList,
+      roomData,
+      user, 
+      rooms, 
+      token, 
+      updateRoom, 
+      selectedRoom, 
+      selectRoom, 
+      isLoading, 
+      fetchRooms, 
+      sendNewMessage 
+    }}>
       { props.children }
     </ChatContext.Provider>
   );
