@@ -10,10 +10,10 @@ const Controller = props => {
 
   const [ message, setMessage ] = useState('');
   const [ invite, setInvite ] = useState(true);
-  const { rooms, token, fetchRooms, user, updateRoom, selectedRoom, isLoading, sendNewMessage, roomData } = useContext(ChatContext);
+  const { user, selectedRoom, isLoading, sendNewMessage, roomData } = useContext(ChatContext);
 
   var messages = [];
-
+  
   if (roomData.length) {
     for (let i of roomData) {
       if (i._id === selectedRoom) {
@@ -22,14 +22,6 @@ const Controller = props => {
     }
   }
 
-  // if (rooms.length) {
-  //   for (let i of rooms) {
-  //     if (i._id === selectedRoom) {
-  //       messages = i.messages;
-  //     }
-  //   }
-  // }
-
   const handleNewMessage = e => {
     setMessage(e.target.value);
   }
@@ -37,34 +29,18 @@ const Controller = props => {
   const handleSubmit = async e => {
     if (message.length === 0) return;
 
-    updateRoom(selectedRoom, message);
-    setMessage('');
-
-    /*const send = await fetch(config.api + '/rooms/' + selectedRoom , {
-      method: 'PATCH',
-      headers: {
-        authorization: token,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        userId: user._id,
-        body: message
-      })
-    });*/
-
     sendNewMessage(selectedRoom, message);
-
-    //if (send.status === 200) fetchRooms();
+    setMessage('');
   }
 
   useEffect(() => {
     setInvite(true);
   }, [selectedRoom])
-
+  
   return (
     <div className={style.container}>
       <div className={style.invite}>
-        {invite && (
+        { invite && (
           <p>
             Invite other people to this room: 
             <a href={window.location.href + '#room=' + selectedRoom}>
@@ -80,8 +56,8 @@ const Controller = props => {
         )}
       </div>
       <div className={style.window}>
-        { messages.length ? messages.map(msg => (
-          <ul id="messagesList">
+        <ul className={style.messageList}>
+          { messages.length ? messages.map(msg => (
             <Message
               key={msg._id}
               username={ msg.user.username !== user.username && msg.user.username }
@@ -89,14 +65,14 @@ const Controller = props => {
               body={msg.body}
               postDate={dateParser(msg.postDate)}
             />
-          </ul>
-        )) : (
-          !isLoading && (
-            <Warning top="25%">
-              This room does not have messages yet, be the first sanding one now!
-            </Warning>
-          )
-        )}
+          )) : (
+            !isLoading && (
+              <Warning top="25%">
+                This room does not have messages yet, be the first sanding one now!
+              </Warning>
+            )
+          )}
+        </ul>
       <NewMessage 
         onChange={handleNewMessage}
         onClick={handleSubmit}

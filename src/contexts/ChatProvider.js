@@ -10,61 +10,51 @@ export const ChatContext = createContext();
 const ChatProvider = props => {
 
   const token = localStorage.getItem('@speech/token');
-  const [ rooms, setRooms ] = useState([]);
   const [ roomList, setRoomList ] = useState(false);
   const [ roomData, setRoomData ] = useState([]);
   const [ isLoading, setIsLoading ] = useState(true);
   const [ selectedRoom, setSelectedRoom ] = useState(localStorage.getItem('@speech/room'));
   const [ user, setUser ] = useState('');
 
-  const [ count, setCount ] = useState(0);
-
   try {
     setUser(JwtDecode(token));
   } catch(err) {}
 
-  const fetchRooms = async () => {
-    const data = await fetch(config.api + '/rooms/' + user._id, {
-      headers: {
-        authorization: token
-      }
-    });
-
-    const response = await data.json();
-    
-    if (response) {
-      setRooms(response.rooms);
-      setIsLoading(false);
-    }
-  }
-
-  const updateRoom = (roomId, body) => {
-    let copy = [...rooms];
-    for (let i in copy) {
-      if (copy[i]._id === roomId) {
-        copy[i].messages.push({
-          postDate: Date.now(),
-          _id: copy[i].messages.length + 1,
-          user: user,
-          body: body
-        })
-
-        setRooms(() => {
-          return copy;
-        });
-      }
-    }
-  }
-
-  const fetchNewData = data => {
+  const fetchNewRoomData = data => {
     let oldData = [ ...roomData ];
-    oldData.push(data[0]);
-    setRoomData(oldData);
-    console.log(roomData);
+    let find = false;
+    if (roomData.length != 0) {
+      for (let i of oldData) {
+        if (i._id === data[0]._id) {
+          find = true;
+        }
+      }
+      if (!find) {
+        oldData.push(data[0]);
+        setRoomData(oldData);
+      }
+    } else {
+      setRoomData(data);
+    }
   }
 
   const sendNewMessage = (roomId, body) => {
+    let oldData = [ ...roomData ];
+    for (let i in oldData) {
+      if (oldData[i]._id === roomId) {
+        oldData[i].messages.push({
+          _id: roomId + oldData[i].messages.length + 1,
+          postDate: Date.now(),
+          body: body,
+          user: user
+        })
+      }
+    }
+
+    setRoomData(oldData);
+
     io.emit('newMessage', {
+      userId: user._id,
       roomId: roomId,
       body: body
     })
@@ -73,52 +63,86 @@ const ChatProvider = props => {
   const selectRoom = roomId => {
     localStorage.setItem('@speech/room', roomId);
     setSelectedRoom(roomId);
+    io.emit('selectedRoom', roomId);
+  }
+
+  const fetchNewMessage = data => {
+    let oldData = [ ...roomData ];
+    for (let i in oldData) {
+      if (oldData[i]._id === data._id) {
+        oldData[i].messages.push(data.messages[0]);
+      }
+    }
+    setRoomData(oldData);
+  }
+
+  const orderByDate = list => {
+    list = list.sort((a, b) => {
+      if (a.messages.length < 1 || b.messages.length < 1) {
+        return 0;
+      }
+      return new Date(a.messages[0].postDate) - new Date(b.messages[0].postDate)
+    });
+    console.log(list);
+    return list;
   }
 
   useEffect(() => {
-    // Obtain the rooms data from the API
-    //fetchRooms();
+    selectRoom(selectedRoom);
 
     io.emit('userId', user._id);
 
     io.on('roomList', docs => {
       console.log('receiving new roomList')
-      setRoomList(docs);
+      let ordered = orderByDate(docs);
+      setRoomList(ordered);
     });
-
-  useEffect(() => {
-    io.on('roomData', docs => {
-      if (roomData.length != 0) {
-        console.log('not empty')
-      } else {
-        setRoomData(docs);
-      }
-    })
-  });
-
-    io.on('test', x => console.log(x))
-
   }, []);
 
-  console.log(count)
+  useEffect(() => {
+    io.on('newMessage', msg => {
+      console.log('receiving new message');
+      fetchNewMessage(msg)
+    });
+
+    return () => io.off('newMessage');
+  })
 
   useEffect(() => {
-    console.log('selecting other room')
-    io.emit('selectedRoom', selectedRoom);
-  }, [selectedRoom])
+    io.on('roomData', docs => fetchNewRoomData(docs))
+
+    // Clean up
+    return () => io.off('roomData');
+  });
+
+  useEffect(() => {
+    if (!roomList) return;
+    if (roomData.length < 1) return;
+
+    let oldList = [ ...roomList ];
+    for (let i in oldList) {
+      for (let b in roomData) {
+        if (roomData[b]._id === oldList[i]._id) {
+          if (roomData[b].messages.length > 0 && oldList[i].messages.length > 0) {
+            if (roomData[b].messages[roomData[b].messages.length - 1]._id !== oldList[i].messages[oldList[i].messages.length - 1]._id) {
+              oldList[i].messages.push(roomData[b].messages[roomData[b].messages.length - 1]);
+            }
+          }
+        }
+      }
+    }
+    setRoomList(oldList);
+  }, [roomData]);
 
   return (
     <ChatContext.Provider value={{
       roomList,
       roomData,
       user, 
-      rooms, 
-      token, 
-      updateRoom, 
+      token,  
       selectedRoom, 
       selectRoom, 
       isLoading, 
-      fetchRooms, 
       sendNewMessage 
     }}>
       { props.children }
