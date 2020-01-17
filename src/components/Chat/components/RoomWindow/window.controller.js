@@ -1,10 +1,9 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { ChatContext } from 'contexts/ChatProvider';
-import config from 'config';
-import style from './window.module.scss';
-import { Message, NewMessage, Warning, Loading } from 'components/Models';
 import dateParser from 'components/dateParser';
+import { Message, NewMessage, Warning } from 'components/Models';
+import { ChatContext } from 'contexts/ChatProvider';
+import React, { useContext, useEffect, useState } from 'react';
 import { MdClose } from 'react-icons/md';
+import style from './window.module.scss';
 
 const Controller = props => {
 
@@ -56,7 +55,7 @@ const Controller = props => {
         )}
       </div>
       <div className={style.window}>
-        <ul className={style.messageList}>
+        <ul className={style.messageList} id="messages">
           { messages.length ? messages.map(msg => (
             <Message
               key={msg._id}

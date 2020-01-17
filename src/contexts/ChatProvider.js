@@ -1,3 +1,4 @@
+import { scrollDown } from 'components/scrollDown';
 import config from 'config';
 import JwtDecode from 'jwt-decode';
 import React, { createContext, useEffect, useState } from 'react';
@@ -133,6 +134,10 @@ const ChatProvider = props => {
     }
     setRoomList(oldList);
   }, [roomData]);
+
+  useEffect(() => {
+    scrollDown('#messages');
+  });
 
   return (
     <ChatContext.Provider value={{
