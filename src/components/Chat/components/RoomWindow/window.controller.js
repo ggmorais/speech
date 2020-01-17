@@ -55,23 +55,25 @@ const Controller = props => {
         )}
       </div>
       <div className={style.window}>
-        <ul className={style.messageList} id="messages">
-          { messages.length ? messages.map(msg => (
-            <Message
-              key={msg._id}
-              username={ msg.user.username !== user.username && msg.user.username }
-              right={ msg.user.username === user.username && true }
-              body={msg.body}
-              postDate={dateParser(msg.postDate)}
-            />
-          )) : (
-            !isLoading && (
-              <Warning top="25%">
-                This room does not have messages yet, be the first sanding one now!
-              </Warning>
-            )
-          )}
-        </ul>
+        <div>
+          <ul className={style.messageList} id="messages">
+            { messages.length ? messages.map(msg => (
+              <Message
+                key={msg._id}
+                username={ msg.user.username !== user.username && msg.user.username }
+                right={ msg.user.username === user.username && true }
+                body={msg.body}
+                postDate={dateParser(msg.postDate)}
+              />
+            )) : (
+              !isLoading && (
+                <Warning top="25%">
+                  This room does not have messages yet, be the first sanding one now!
+                </Warning>
+              )
+            )}
+          </ul>
+        </div>
       <NewMessage 
         onChange={handleNewMessage}
         onClick={handleSubmit}
