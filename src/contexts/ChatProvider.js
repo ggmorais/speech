@@ -3,7 +3,7 @@ import JwtDecode from 'jwt-decode';
 import React, { createContext, useEffect, useState } from 'react';
 import socket from 'socket.io-client';
 
-const io = socket('http://localhost:5000');
+const io = socket(config.socket);
 
 export const ChatContext = createContext();
 
